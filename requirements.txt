@@ -1,4 +1,4 @@
-tushare
+akshare
 pandas
 numpy
 requests
