@@ -1,0 +1,24 @@
+name: Stock Daily Push
+
+on:
+  schedule:
+    # 北京时间每个交易日8:30（周一至周五），UTC时间0:30
+    - cron: '30 0 * * 1-5'
+  workflow_dispatch:   # 允许手动触发测试
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run script
+        env:
+          TUSHARE_TOKEN: ${{ secrets.TUSHARE_TOKEN }}
+          PUSHPLUS_TOKEN: ${{ secrets.PUSHPLUS_TOKEN }}
+        run: python main.py
